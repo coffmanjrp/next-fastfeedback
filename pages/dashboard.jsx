@@ -1,19 +1,27 @@
 import React from 'react';
-import Head from 'next/head';
-import { Heading, Button, Text, Code, Box, Flex } from '@chakra-ui/react';
+import useSWR from 'swr';
+import fetcher from '@/utils/fetcher';
 import { useAuth } from '@/lib/auth';
-import { LogoIcon } from '@/utils/customIcons';
 import EmptyState from '@/components/EmptyState';
-import FreePlanEmptyState from '@/components/FreePlanEmptyState';
+import SiteTableSkeleton from '@/components/SiteTableSkeleton';
+import DashboardShell from '@/components/DashboardShell';
+import SiteTable from '@/components/SiteTable';
 
 const Dashboard = () => {
   const auth = useAuth();
+  const { data } = useSWR('/api/sites', fetcher);
 
-  if (!auth.user) {
-    return 'Loading...';
-  }
-
-  return <EmptyState />;
+  return (
+    <DashboardShell>
+      {!data ? (
+        <SiteTableSkeleton />
+      ) : data.sites ? (
+        <SiteTable sites={data.sites} />
+      ) : (
+        <EmptyState />
+      )}
+    </DashboardShell>
+  );
 };
 
 export default Dashboard;

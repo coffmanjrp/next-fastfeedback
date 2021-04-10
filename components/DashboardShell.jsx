@@ -8,15 +8,14 @@ import {
   BreadcrumbItem,
   BreadcrumbLink,
   Heading,
-  Box,
-  Text,
   Button,
 } from '@chakra-ui/react';
 import { LogoIcon } from '@/utils/customIcons';
 import { useAuth } from '@/lib/auth';
+import AddSiteModal from './AddSiteModal';
 
 const DashboardShell = ({ children }) => {
-  const auth = useAuth();
+  const { user } = useAuth();
 
   return (
     <Flex flexDirection="column">
@@ -33,8 +32,12 @@ const DashboardShell = ({ children }) => {
           <Link>Sites</Link>
         </Stack>
         <Flex alignItems="center">
-          <Link mr={4}>Account</Link>
-          <Avatar size="sm" src={auth.user.photoUrl} />
+          {user && (
+            <Button variant="ghost" mr={2} onClick={() => auth.signout()}>
+              Log out
+            </Button>
+          )}
+          <Avatar size="sm" src={user && user.photoUrl} />
         </Flex>
       </Flex>
       <Flex backgroundColor="gray.100" p={8} h="100vh">
@@ -46,9 +49,12 @@ const DashboardShell = ({ children }) => {
               </BreadcrumbLink>
             </BreadcrumbItem>
           </Breadcrumb>
-          <Heading as="h1" mb={4}>
-            Sites
-          </Heading>
+          <Flex justify="space-between">
+            <Heading as="h1" mb={8}>
+              My Sites
+            </Heading>
+            <AddSiteModal>+ Add Site</AddSiteModal>
+          </Flex>
           {children}
         </Flex>
       </Flex>
