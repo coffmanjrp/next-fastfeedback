@@ -15,7 +15,7 @@ import { useAuth } from '@/lib/auth';
 import AddSiteModal from './AddSiteModal';
 
 const DashboardShell = ({ children }) => {
-  const { user } = useAuth();
+  const { user, signout } = useAuth();
 
   return (
     <Flex flexDirection="column">
@@ -25,6 +25,10 @@ const DashboardShell = ({ children }) => {
         alignItems="center"
         py={4}
         px={8}
+        w="full"
+        h="70px"
+        m="0 auto"
+        maxW="1250px"
       >
         <Stack spacing={4} isInline alignItems="center">
           <LogoIcon color="black" fontSize="24px" />
@@ -33,7 +37,7 @@ const DashboardShell = ({ children }) => {
         </Stack>
         <Flex alignItems="center">
           {user && (
-            <Button variant="ghost" mr={2} onClick={() => auth.signout()}>
+            <Button variant="ghost" mr={2} onClick={() => signout()}>
               Log out
             </Button>
           )}
