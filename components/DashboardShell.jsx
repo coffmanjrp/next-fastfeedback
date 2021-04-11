@@ -41,7 +41,7 @@ const DashboardShell = ({ children }) => {
         </Flex>
       </Flex>
       <Flex backgroundColor="gray.100" p={8} h="100vh">
-        <Flex maxWidth="800px" direction="column" width="100%" m="0 auto">
+        <Flex maxWidth="980px" direction="column" width="100%" m="0 auto">
           <Breadcrumb>
             <BreadcrumbItem isCurrentPage>
               <BreadcrumbLink color="gray.700" fontSize="sm">
