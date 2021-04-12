@@ -76,7 +76,7 @@ const Home = () => {
             _active={{ bg: 'gray.100', transform: 'scale(0.95)' }}
             onClick={() => auth.signinWithGoogle()}
           >
-            Sign in with GitHub
+            Sign in with Google
           </Button>
         </Stack>
       )}
