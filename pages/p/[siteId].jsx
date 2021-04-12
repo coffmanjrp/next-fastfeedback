@@ -33,7 +33,12 @@ const SiteFeedback = ({ initialFeedback }) => {
     <Flex flexDirection="column" w="full" maxW="700px" m="0 auto">
       <FormControl as="form" id="comment" my={8} onSubmit={onSubmit}>
         <FormLabel>Comment</FormLabel>
-        <Input type="comment" htmlFor="comment" ref={inputEl} />
+        <Input
+          type="comment"
+          htmlFor="comment"
+          ref={inputEl}
+          backgroundColor="white"
+        />
         <Button type="submit" fontWeight="medium" mt={2}>
           Add Comments
         </Button>
