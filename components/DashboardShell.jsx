@@ -8,16 +8,22 @@ const DashboardShell = ({ children }) => {
   const { user, signout } = useAuth();
 
   return (
-    <Flex flexDirection="column">
-      <Box backgroundColor="white" w="full" h="70px">
+    <Box backgroundColor="gray.100" h="100vh">
+      <Flex
+        mb={16}
+        w="full"
+        backgroundColor="white"
+        borderTop="5px solid #0af5f4"
+      >
         <Flex
           justifyContent="space-between"
           alignItems="center"
+          m="0 auto"
           py={4}
           px={8}
           w="full"
-          m="0 auto"
           maxW="1250px"
+          h="60px"
         >
           <Stack spacing={4} isInline alignItems="center">
             <NextLink href="/" passHref>
@@ -41,13 +47,13 @@ const DashboardShell = ({ children }) => {
             <Avatar size="sm" src={user && user.photoUrl} />
           </Flex>
         </Flex>
-      </Box>
+      </Flex>
       <Flex backgroundColor="gray.100" p={8} h="100vh">
         <Flex maxWidth="1150px" direction="column" w="full" m="0 auto">
           {children}
         </Flex>
       </Flex>
-    </Flex>
+    </Box>
   );
 };
 
