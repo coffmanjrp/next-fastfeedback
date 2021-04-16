@@ -1,7 +1,7 @@
 import React from 'react';
 import Head from 'next/head';
 import NextLink from 'next/link';
-import { Button, Box, Flex, Text, Stack } from '@chakra-ui/react';
+import { Button, Box, Flex, Text, HStack } from '@chakra-ui/react';
 import { useAuth } from '@/lib/auth';
 import { getAllFeedback } from '@/lib/db-admin';
 import { LogoIcon } from '@/utils/customIcons';
@@ -62,7 +62,7 @@ const Home = ({ allFeedback }) => {
               </Button>
             </NextLink>
           ) : (
-            <Stack mt={4}>
+            <HStack mt={4}>
               <Button
                 leftIcon={<GitHubIcon />}
                 size="lg"
@@ -88,7 +88,7 @@ const Home = ({ allFeedback }) => {
               >
                 Sign in with Google
               </Button>
-            </Stack>
+            </HStack>
           )}
         </Flex>
       </Box>
