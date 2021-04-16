@@ -8,7 +8,6 @@ const GlobalStyle = () => {
         styles={css`
           body {
             min-width: 360px;
-            background-color: #edf2f7;
             scroll-behavior: smooth;
           }
           #__next {
