@@ -43,8 +43,12 @@ const Home = ({ allFeedback }) => {
           </Head>
 
           <LogoIcon color="black" fontSize="42px" mb={2} />
-          <Text mb={4} fontSize="lg" fontWeight="bold">
-            Fast Feedback
+          <Text mb={4} fontSize="lg">
+            <Text as="span" fontWeight="bold">
+              Fast Feedback
+            </Text>{' '}
+            is the easiest way to add comments or reviews to your static site.
+            It's still a work-in-progress, but you can try it out by logging in.
           </Text>
           {auth.user ? (
             <NextLink href="/dashboard" passHref>
