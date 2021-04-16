@@ -25,6 +25,7 @@ const SiteFeedback = ({ initialFeedback }) => {
       status: 'pending',
     };
 
+    inputEl.current.value = '';
     setAllFeedback([newFeedback, ...allFeedback]);
     createFeedback(newFeedback);
   };
@@ -37,15 +38,21 @@ const SiteFeedback = ({ initialFeedback }) => {
           type="comment"
           htmlFor="comment"
           ref={inputEl}
-          backgroundColor="white"
+          placeholder="Leave a comment"
         />
-        <Button type="submit" fontWeight="medium" mt={2}>
+        <Button
+          type="submit"
+          fontWeight="medium"
+          mt={2}
+          isDisabled={router.isFallback}
+        >
           Add Comments
         </Button>
       </FormControl>
-      {allFeedback.map((feedback) => (
-        <Feedback key={feedback.id} {...feedback} />
-      ))}
+      {allFeedback &&
+        allFeedback.map((feedback) => (
+          <Feedback key={feedback.id} {...feedback} />
+        ))}
     </Flex>
   );
 };
@@ -72,7 +79,7 @@ export async function getStaticPaths() {
 
   return {
     paths,
-    fallback: false,
+    fallback: true,
   };
 }
 
