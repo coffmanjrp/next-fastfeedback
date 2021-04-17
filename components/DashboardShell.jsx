@@ -1,11 +1,11 @@
 import React from 'react';
 import NextLink from 'next/link';
-import { Flex, Link, Stack, Avatar, Button, Box } from '@chakra-ui/react';
+import { Flex, Link, HStack, Avatar, Button, Box } from '@chakra-ui/react';
 import { LogoIcon } from '@/utils/customIcons';
 import { useAuth } from '@/lib/auth';
 
 const DashboardShell = ({ children }) => {
-  const { user, signout } = useAuth();
+  const { user } = useAuth();
 
   return (
     <Box backgroundColor="gray.100" h="100vh">
@@ -25,7 +25,7 @@ const DashboardShell = ({ children }) => {
           maxW="1250px"
           h="60px"
         >
-          <Stack spacing={4} isInline alignItems="center">
+          <HStack spacing={4} alignItems="center">
             <NextLink href="/" passHref>
               <Link>
                 <LogoIcon color="black" fontSize="24px" mt="-1px" />
@@ -37,15 +37,15 @@ const DashboardShell = ({ children }) => {
             <NextLink href="/feedback" passHref>
               <Link>Feedback</Link>
             </NextLink>
-          </Stack>
-          <Flex alignItems="center">
+          </HStack>
+          <HStack spacing={4} alignItems="center">
             {user && (
-              <Button variant="ghost" mr={2} onClick={() => signout()}>
-                Log out
-              </Button>
+              <NextLink href="/account" passHref>
+                <Link>Account</Link>
+              </NextLink>
             )}
             <Avatar size="sm" src={user && user.photoUrl} />
-          </Flex>
+          </HStack>
         </Flex>
       </Flex>
       <Flex backgroundColor="gray.100" p={8} h="100vh">

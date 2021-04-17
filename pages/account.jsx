@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import useSWR from 'swr';
 import { Button, HStack } from '@chakra-ui/react';
 import { useAuth } from '@/lib/auth';
@@ -7,8 +7,10 @@ import DashboardShell from '@/components/DashboardShell';
 import fetcher from '@/utils/fetcher';
 
 const Account = () => {
-  const { user } = useAuth();
+  const { user, signout } = useAuth();
   // const { data } = useSWR(user ? ['/api/user', user.token] : null, fetcher);
+  const [isCheckoutLoading, setIsCheckoutLoading] = useState(false);
+  const [isBillingLoading, setIsBillingLoading] = useState(false);
 
   return (
     <DashboardShell>
@@ -20,7 +22,11 @@ const Account = () => {
           fontWeight="medium"
           _hover={{ bg: 'gray.700' }}
           _active={{ bg: 'gray.800', transform: 'scale(0.95)' }}
-          onClick={(e) => createCheckoutSession(user.uid)}
+          isLoading={isCheckoutLoading}
+          onClick={() => {
+            setIsCheckoutLoading(true);
+            createCheckoutSession(user.uid);
+          }}
         >
           Upgrade to Starter
         </Button>
@@ -31,9 +37,16 @@ const Account = () => {
           fontWeight="medium"
           _hover={{ bg: 'gray.700' }}
           _active={{ bg: 'gray.800', transform: 'scale(0.95)' }}
-          onClick={(e) => goToBillingPortal()}
+          isLoading={isBillingLoading}
+          onClick={() => {
+            setIsBillingLoading(true);
+            goToBillingPortal();
+          }}
         >
           View Billing Portal
+        </Button>
+        <Button variant="ghost" mr={2} onClick={() => signout()}>
+          Log out
         </Button>
       </HStack>
     </DashboardShell>
