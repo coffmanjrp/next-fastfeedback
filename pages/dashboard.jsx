@@ -17,7 +17,7 @@ const Dashboard = () => {
       <SiteTableHeader />
       {!data ? (
         <SiteTableSkeleton />
-      ) : data.sites ? (
+      ) : data.sites.length ? (
         <SiteTable sites={data.sites} />
       ) : (
         <EmptyState />
