@@ -1,22 +1,8 @@
 import React, { useState } from 'react';
 import useSWR from 'swr';
-import {
-  Avatar,
-  Heading,
-  Box,
-  Button,
-  Flex,
-  Text,
-  Badge,
-  HStack,
-  StatGroup,
-  Stat,
-  StatLabel,
-  StatNumber,
-  StatHelpText,
-} from '@chakra-ui/react';
+import { Avatar, Heading, Button, Flex, Text } from '@chakra-ui/react';
 import { useAuth } from '@/lib/auth';
-import { createCheckoutSession, goToBillingPortal } from '@/lib/db';
+import { goToBillingPortal } from '@/lib/db';
 import DashboardShell from '@/components/DashboardShell';
 import SettingsTable from '@/components/SettingsTable';
 import FeedbackUsage from '@/components/FeedbackUsage';
@@ -25,7 +11,6 @@ import fetcher from '@/utils/fetcher';
 const Account = () => {
   const { user, signout } = useAuth();
   // const { data } = useSWR(user ? ['/api/user', user.token] : null, fetcher);
-  const [isCheckoutLoading, setIsCheckoutLoading] = useState(false);
   const [isBillingLoading, setIsBillingLoading] = useState(false);
 
   return (
@@ -47,7 +32,7 @@ const Account = () => {
           <Text>{user && user.email}</Text>
         </Flex>
       </Flex>
-      <SettingsTable stripeRole={'Free'}>
+      <SettingsTable stripeRole={user && user.stripeRole}>
         <FeedbackUsage />
         <Text my={4}>
           Fast Feedback uses Stripe to update, change, or cancel your
@@ -59,6 +44,7 @@ const Account = () => {
             Log out
           </Button>
           <Button
+            mr={2}
             size="lg"
             backgroundColor="gray.900"
             color="white"
@@ -71,23 +57,8 @@ const Account = () => {
               goToBillingPortal();
             }}
           >
-            View Billing Portal
+            Manage Billing
           </Button>
-          {/* <Button
-            size="lg"
-            backgroundColor="gray.900"
-            color="white"
-            fontWeight="medium"
-            _hover={{ bg: 'gray.700' }}
-            _active={{ bg: 'gray.800', transform: 'scale(0.95)' }}
-            isLoading={isCheckoutLoading}
-            onClick={() => {
-              setIsCheckoutLoading(true);
-              createCheckoutSession(user.uid);
-            }}
-          >
-            Upgrade to Starter
-          </Button> */}
         </Flex>
       </SettingsTable>
     </DashboardShell>

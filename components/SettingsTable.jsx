@@ -26,7 +26,7 @@ const SettingsTable = ({ stripeRole, children }) => {
             fontWeight="medium"
             mt={1}
           >
-            Setting
+            Settings
           </Text>
           <Badge h="1rem" colorScheme="blue">
             {stripeRole}
