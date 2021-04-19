@@ -34,7 +34,7 @@ const Home = ({ allFeedback }) => {
               dangerouslySetInnerHTML={{
                 __html: `
                     if (document.cookie && document.cookie.includes('fast-feedback-auth')) {
-                      window.location.href = "/dashboard"
+                      window.location.href = "/sites"
                     }
                   `,
               }}
@@ -50,7 +50,7 @@ const Home = ({ allFeedback }) => {
             It's still a work-in-progress, but you can try it out by logging in.
           </Text>
           {auth.user ? (
-            <NextLink href="/dashboard" passHref>
+            <NextLink href="/sites" passHref>
               <Button
                 as="a"
                 size="lg"
