@@ -14,8 +14,6 @@ const DashboardShell = ({ children }) => {
   const title = `FastFeedback - ${name}`;
   const url = `http://localhost:3000${path}`;
 
-  console.log(path);
-
   return (
     <>
       <NextSeo title={title} canonical={url} openGraph={{ url, title }} />
