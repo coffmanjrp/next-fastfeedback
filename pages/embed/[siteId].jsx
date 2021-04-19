@@ -4,7 +4,6 @@ import { Flex, Input, FormControl, FormLabel, Button } from '@chakra-ui/react';
 import { useAuth } from '@/lib/auth';
 import { createFeedback } from '@/lib/db';
 import { getAllFeedback, getAllSites } from '@/lib/db-admin';
-import DashboardShell from '@/components/DashboardShell';
 import Feedback from '@/components/Feedback';
 
 const SiteFeedback = ({ initialFeedback }) => {
@@ -32,31 +31,29 @@ const SiteFeedback = ({ initialFeedback }) => {
   };
 
   return (
-    <DashboardShell>
-      <Flex flexDirection="column" w="full" maxW="700px" m="0 auto">
-        <FormControl as="form" id="comment" my={8} onSubmit={onSubmit}>
-          <FormLabel>Comment</FormLabel>
-          <Input
-            type="comment"
-            htmlFor="comment"
-            ref={inputEl}
-            placeholder="Leave a comment"
-          />
-          <Button
-            type="submit"
-            fontWeight="medium"
-            mt={2}
-            isDisabled={router.isFallback}
-          >
-            Add Comments
-          </Button>
-        </FormControl>
-        {allFeedback &&
-          allFeedback.map((feedback) => (
-            <Feedback key={feedback.id} {...feedback} />
-          ))}
-      </Flex>
-    </DashboardShell>
+    <Flex flexDirection="column" w="full">
+      <FormControl as="form" id="comment" my={8} onSubmit={onSubmit}>
+        <FormLabel>Comment</FormLabel>
+        <Input
+          type="comment"
+          htmlFor="comment"
+          ref={inputEl}
+          placeholder="Leave a comment"
+        />
+        <Button
+          type="submit"
+          fontWeight="medium"
+          mt={2}
+          isDisabled={router.isFallback}
+        >
+          Add Comments
+        </Button>
+      </FormControl>
+      {allFeedback &&
+        allFeedback.map((feedback) => (
+          <Feedback key={feedback.id} {...feedback} />
+        ))}
+    </Flex>
   );
 };
 
