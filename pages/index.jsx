@@ -30,14 +30,13 @@ const Home = ({ allFeedback }) => {
       <Box backgroundColor="gray.100" py={16}>
         <Flex as="main" direction="column" maxW="700px" m="0 auto">
           <Head>
-            <title>Fast Feedback</title>
             <script
               dangerouslySetInnerHTML={{
                 __html: `
-          if (document.cookie && document.cookie.includes('fast-feedback-auth')) {
-            window.location.href = "/dashboard"
-          }
-        `,
+                    if (document.cookie && document.cookie.includes('fast-feedback-auth')) {
+                      window.location.href = "/dashboard"
+                    }
+                  `,
               }}
             />
           </Head>
