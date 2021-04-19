@@ -25,7 +25,7 @@ const FeedbackTable = ({ id, status, text, author, route }) => {
       </Td>
       <Td>
         <Switch
-          variantColor="green"
+          colorScheme="green"
           isChecked={checked}
           onChange={toggleFeedback}
         />

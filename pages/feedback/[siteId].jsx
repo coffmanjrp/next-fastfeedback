@@ -1,4 +1,5 @@
 import React from 'react';
+import { useRouter } from 'next/router';
 import useSWR from 'swr';
 import fetcher from '@/utils/fetcher';
 import { useAuth } from '@/lib/auth';
@@ -6,15 +7,19 @@ import FeedbackEmptyState from '@/components/FeedbackEmptyState';
 import SiteTableSkeleton from '@/components/SiteTableSkeleton';
 import DashboardShell from '@/components/DashboardShell';
 import FeedbackTable from '@/components/FeedbackTable';
-import FeedbackTableHeader from '@/components/FeedbackTableHeader';
+import SiteFeedbackTableHeader from '@/components/SiteFeedbackTableHeader';
 
-const UserFeedback = () => {
+const SiteFeedback = () => {
   const { user } = useAuth();
-  const { data } = useSWR(user ? ['/api/feedback', user.token] : null, fetcher);
+  const { query } = useRouter();
+  const { data } = useSWR(
+    user ? [`/api/feedback/${query.siteId}`, user.token] : null,
+    fetcher
+  );
 
   return (
     <DashboardShell>
-      <FeedbackTableHeader siteName={'All Feedback'} />
+      <SiteFeedbackTableHeader siteName={data && data.site.name} />
       {!data ? (
         <SiteTableSkeleton />
       ) : data.feedback.length ? (
@@ -26,4 +31,4 @@ const UserFeedback = () => {
   );
 };
 
-export default UserFeedback;
+export default SiteFeedback;
