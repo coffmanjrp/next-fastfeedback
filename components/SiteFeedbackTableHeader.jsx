@@ -12,14 +12,14 @@ const SiteFeedbackTableHeader = ({ siteName }) => {
   return (
     <>
       <Breadcrumb>
-        <BreadcrumbItem isCurrentPage>
+        <BreadcrumbItem>
           <NextLink href="/feedback" passHref>
             <BreadcrumbLink color="gray.700" fontSize="sm">
               Feedback
             </BreadcrumbLink>
           </NextLink>
         </BreadcrumbItem>
-        <BreadcrumbItem>
+        <BreadcrumbItem isCurrentPage>
           <BreadcrumbLink color="gray.700" fontSize="sm">
             {siteName || '-'}
           </BreadcrumbLink>
