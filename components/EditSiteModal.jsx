@@ -15,44 +15,37 @@ import {
   Button,
   useToast,
   useDisclosure,
+  Switch,
 } from '@chakra-ui/react';
-import { createSite } from '@/lib/db';
+import { SettingsIcon } from '@chakra-ui/icons';
+import { updateSite } from '@/lib/db';
 import { useAuth } from '@/lib/auth';
 
-const EditSiteModal = ({ children }) => {
+const EditSiteModal = ({ children, settings, siteId }) => {
   const initialRef = useRef();
   const toast = useToast();
   const { user } = useAuth();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { register, handleSubmit } = useForm();
 
-  const onCreateSite = ({ name, url }) => {
-    const newSite = {
-      authorId: user.uid,
-      createdAt: new Date().toISOString(),
-      name,
-      url,
-    };
+  const onUpdateSite = async (fields) => {
+    await updateSite(siteId, { settings: fields });
 
-    const { id } = createSite(newSite);
     toast({
       title: 'Success!',
-      description: "We've added your site.",
+      description: "We've updated your site.",
       status: 'success',
       duration: 5000,
       isClosable: true,
     });
-    mutate(
-      ['/api/sites', user.token],
-      async (data) => ({ sites: [{ id, ...newSite }, ...data.sites] }),
-      false
-    );
+    mutate(['/api/sites', user.token]);
     onClose();
   };
 
   return (
     <>
       <Button
+        leftIcon={<SettingsIcon />}
         backgroundColor="gray.900"
         color="white"
         fontWeight="medium"
@@ -65,22 +58,45 @@ const EditSiteModal = ({ children }) => {
 
       <Modal initialFocusRef={initialRef} isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
-        <ModalContent as="form" onSubmit={handleSubmit(onCreateSite)}>
-          <ModalHeader fontWeight="bold">Add Site</ModalHeader>
+        <ModalContent as="form" onSubmit={handleSubmit(onUpdateSite)}>
+          <ModalHeader fontWeight="bold">Edit Site</ModalHeader>
           <ModalCloseButton />
           <ModalBody pb={6}>
-            <FormControl>
-              <FormLabel>Name</FormLabel>
-              <Input
+            <FormControl display="flex" align="center">
+              <Switch
+                id="show-timestamp"
                 ref={initialRef}
-                placeholder="My site"
-                {...register('name')}
+                {...register('timestamp')}
+                colorScheme="green"
+                defaultChecked={settings?.timestamp}
               />
+              <FormLabel htmlFor="show-timestamp" ml={2}>
+                Show Timestamp
+              </FormLabel>
             </FormControl>
-
-            <FormControl mt={4}>
-              <FormLabel>Link</FormLabel>
-              <Input placeholder="https://website.com" {...register('url')} />
+            <FormControl display="flex" align="center">
+              <Switch
+                id="show-icon"
+                ref={initialRef}
+                {...register('icons')}
+                colorScheme="green"
+                defaultChecked={settings?.icons}
+              />
+              <FormLabel htmlFor="show-icon" ml={2}>
+                Show Icon
+              </FormLabel>
+            </FormControl>
+            <FormControl display="flex" align="center">
+              <Switch
+                id="show-ratings"
+                ref={initialRef}
+                {...register('ratings')}
+                colorScheme="green"
+                defaultChecked={settings?.ratings}
+              />
+              <FormLabel htmlFor="show-ratings" ml={2}>
+                Show Ratings
+              </FormLabel>
             </FormControl>
           </ModalBody>
 
@@ -94,7 +110,7 @@ const EditSiteModal = ({ children }) => {
               color="#194f4c"
               fontWeight="medium"
             >
-              Create
+              Update
             </Button>
           </ModalFooter>
         </ModalContent>

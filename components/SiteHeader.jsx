@@ -44,7 +44,11 @@ const SiteHeader = ({ site, siteId, route, isSiteOwner }) => {
         <Heading as="h1" mb={8}>
           {siteName || '-'}
         </Heading>
-        {isSiteOwner && <EditSiteModal>Edit Site</EditSiteModal>}
+        {isSiteOwner && (
+          <EditSiteModal settings={site?.settings} siteId={siteId}>
+            Edit Site
+          </EditSiteModal>
+        )}
       </Flex>
     </Box>
   );
