@@ -78,7 +78,11 @@ const SiteFeedback = ({ initialFeedback, site }) => {
         </FormControl>
         {allFeedback &&
           allFeedback.map((feedback) => (
-            <Feedback key={feedback.id} {...feedback} />
+            <Feedback
+              key={feedback.id}
+              settings={site?.settings}
+              {...feedback}
+            />
           ))}
       </Flex>
     </DashboardShell>
