@@ -12,9 +12,9 @@ import {
 } from '@chakra-ui/react';
 import { DeleteIcon } from '@chakra-ui/icons';
 import { useAuth } from '@/lib/auth';
-import { deleteFeedback } from '@/lib/db';
+import { deleteFeedback, deleteSite } from '@/lib/db';
 
-const RemoveButton = ({ feedbackId }) => {
+const DeleteSiteButton = ({ siteId }) => {
   const [isOpen, setIsOpen] = useState(false);
   const cancelRef = useRef();
   const auth = useAuth();
@@ -22,12 +22,12 @@ const RemoveButton = ({ feedbackId }) => {
   const onClose = () => setIsOpen(false);
 
   const onDelete = () => {
-    deleteFeedback(feedbackId);
+    deleteSite(siteId);
     mutate(
-      ['/api/feedback', auth.user.token],
+      ['/api/site', auth.user.token],
       async (data) => {
         return {
-          feedback: data.feedback.filter((fb) => fb.id !== feedbackId),
+          sites: data?.sites.filter((site) => site.id !== siteId),
         };
       },
       false
@@ -39,7 +39,7 @@ const RemoveButton = ({ feedbackId }) => {
   return (
     <>
       <IconButton
-        aria-label="Delete feedback"
+        aria-label="Delete site"
         icon={<DeleteIcon />}
         variant="ghost"
         onClick={() => setIsOpen(true)}
@@ -53,18 +53,24 @@ const RemoveButton = ({ feedbackId }) => {
         <AlertDialogOverlay>
           <AlertDialogContent>
             <AlertDialogHeader fontSize="lg" fontWeight="bold">
-              Delete Feedback
+              Delete Site
             </AlertDialogHeader>
 
             <AlertDialogBody>
-              Are you sure? You can't undo this action afterwards.
+              Are you sure? This will also delete all feedback left on the site.
+              You can't undo this action afterwards.
             </AlertDialogBody>
 
             <AlertDialogFooter>
               <Button ref={cancelRef} onClick={onClose}>
                 Cancel
               </Button>
-              <Button colorScheme="red" onClick={onDelete} ml={3}>
+              <Button
+                colorScheme="red"
+                ml={3}
+                fontWeight="bold"
+                onClick={onDelete}
+              >
                 Delete
               </Button>
             </AlertDialogFooter>
@@ -75,4 +81,4 @@ const RemoveButton = ({ feedbackId }) => {
   );
 };
 
-export default RemoveButton;
+export default DeleteSiteButton;

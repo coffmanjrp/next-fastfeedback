@@ -4,7 +4,7 @@ import { Box, Code, Switch } from '@chakra-ui/react';
 import { useAuth } from '@/lib/auth';
 import { updateFeedback } from '@/lib/db';
 import { Td } from './Table';
-import RemoveButton from './RemoveButton';
+import DeleteFeedbackButton from './DeleteFeedbackButton';
 
 const FeedbackTable = ({ id, status, text, author, route }) => {
   const auth = useAuth();
@@ -31,7 +31,7 @@ const FeedbackTable = ({ id, status, text, author, route }) => {
         />
       </Td>
       <Td>
-        <RemoveButton feedbackId={id} />
+        <DeleteFeedbackButton feedbackId={id} />
       </Td>
     </Box>
   );

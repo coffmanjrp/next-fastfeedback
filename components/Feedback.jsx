@@ -10,7 +10,7 @@ const Feedback = ({ author, text, createdAt, provider, settings }) => {
         <Heading as="h3" size="sm" mb={0} color="gray.900" fontWeight="medium">
           {author}
         </Heading>
-        {settings.icons && (
+        {settings?.icons && (
           <Icon
             as={provider === 'google.com' ? GoogleIcon : GitHubIcon}
             size="13px"
@@ -18,7 +18,7 @@ const Feedback = ({ author, text, createdAt, provider, settings }) => {
           />
         )}
       </Flex>
-      {settings.timestamp && (
+      {settings?.timestamp && (
         <Text color="gray.500" mb={4} fontSize="xs">
           {format(parseISO(createdAt), 'PPpp')}
         </Text>
