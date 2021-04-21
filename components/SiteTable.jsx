@@ -18,11 +18,13 @@ const SiteTable = ({ sites }) => {
         </Tr>
       </thead>
       <tbody>
-        {sites.map((site) => (
+        {sites.map((site, index) => (
           <Box as="tr" key={site.url}>
             <Td>
               <NextLink href="/site/[siteId]" as={`/site/${site.id}`} passHref>
-                <Link fontWeight="medium">{site.name}</Link>
+                <Link id={`site-table-link-${index}`} fontWeight="medium">
+                  {site.name}
+                </Link>
               </NextLink>
             </Td>
             <Td>

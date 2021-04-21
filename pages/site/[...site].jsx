@@ -1,5 +1,6 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useRef } from 'react';
 import { useRouter } from 'next/router';
+import useSWR, { mutate } from 'swr';
 import {
   Flex,
   FormControl,
@@ -9,39 +10,51 @@ import {
 } from '@chakra-ui/react';
 import { useAuth } from '@/lib/auth';
 import { createFeedback } from '@/lib/db';
-import { getAllFeedback, getAllSites, getSite } from '@/lib/db-admin';
 import DashboardShell from '@/components/DashboardShell';
 import Feedback from '@/components/Feedback';
 import SiteHeader from '@/components/SiteHeader';
+import fetcher from '@/utils/fetcher';
 
-const SiteFeedback = ({ initialFeedback, site }) => {
-  const [allFeedback, setAllFeedback] = useState(initialFeedback);
+const SiteFeedback = () => {
   const inputEl = useRef(null);
   const router = useRouter();
   const { user } = useAuth();
-  const [siteId, route] = router.query.site;
+  const siteAndRoute = router.query?.site;
+  const siteId = siteAndRoute ? siteAndRoute[0] : null;
+  const route = siteAndRoute ? siteAndRoute[1] : null;
+  const feedbackApi = route
+    ? `/api/feedback/${siteId}/${route}`
+    : `/api/feedback/${siteId}/`;
+  const { data: siteData } = useSWR(`/api/site/${siteId}`, fetcher);
+  const { data: feedbackData } = useSWR(feedbackApi, fetcher);
 
-  useEffect(() => {
-    setAllFeedback(initialFeedback);
-  }, [initialFeedback]);
+  const site = siteData?.site;
+  const allFeedback = feedbackData?.feedback;
 
   const onSubmit = (e) => {
     e.preventDefault();
 
     const newFeedback = {
       siteId,
+      siteAuthorId: site.authorId,
       route: route || '/',
       author: user.name,
       authorId: user.uid,
       text: inputEl.current.value,
       createdAt: new Date().toISOString(),
       provider: user.provider,
-      status: 'pending',
+      status: 'active',
     };
 
     inputEl.current.value = '';
-    setAllFeedback([newFeedback, ...allFeedback]);
     createFeedback(newFeedback);
+    mutate(
+      feedbackApi,
+      async (data) => ({
+        feedback: [newFeedback, ...data.feedback],
+      }),
+      false
+    );
   };
 
   return (
@@ -62,25 +75,29 @@ const SiteFeedback = ({ initialFeedback, site }) => {
             placeholder="Leave a comment"
             h="100px"
             backgroundColor="white"
+            isDisabled={!user}
           />
-          <Button
-            type="submit"
-            mt={2}
-            backgroundColor="gray.900"
-            color="white"
-            fontWeight="medium"
-            _hover={{ bg: 'gray.700' }}
-            _active={{ bg: 'gray.800', transform: 'scale(0.95)' }}
-            isDisabled={router.isFallback}
-          >
-            Leave Feedback
-          </Button>
+          {user && (
+            <Button
+              type="submit"
+              mt={2}
+              backgroundColor="gray.900"
+              color="white"
+              fontWeight="medium"
+              _hover={{ bg: 'gray.700' }}
+              _active={{ bg: 'gray.800', transform: 'scale(0.95)' }}
+              isDisabled={router.isFallback}
+            >
+              Leave Feedback
+            </Button>
+          )}
         </FormControl>
         {allFeedback &&
-          allFeedback.map((feedback) => (
+          allFeedback.map((feedback, index) => (
             <Feedback
               key={feedback.id}
               settings={site?.settings}
+              isLast={index === allFeedback.length - 1}
               {...feedback}
             />
           ))}
@@ -88,33 +105,5 @@ const SiteFeedback = ({ initialFeedback, site }) => {
     </DashboardShell>
   );
 };
-
-export async function getStaticProps(context) {
-  const [siteId, route] = context.params.site;
-  const { feedback } = await getAllFeedback(siteId, route);
-  const { site } = await getSite(siteId);
-
-  return {
-    props: {
-      initialFeedback: feedback,
-      site,
-    },
-    revalidate: 1,
-  };
-}
-
-export async function getStaticPaths() {
-  const { sites } = await getAllSites();
-  const paths = sites.map((site) => ({
-    params: {
-      site: [site.id.toString()],
-    },
-  }));
-
-  return {
-    paths,
-    fallback: true,
-  };
-}
 
 export default SiteFeedback;

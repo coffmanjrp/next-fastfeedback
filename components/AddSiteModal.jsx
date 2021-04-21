@@ -31,6 +31,11 @@ const AddSiteModal = ({ children }) => {
       authorId: user.uid,
       createdAt: new Date().toISOString(),
       name,
+      settings: {
+        icons: true,
+        ratings: true,
+        timestamp: true,
+      },
       url,
     };
 

@@ -17,7 +17,7 @@ const UserFeedback = () => {
       <FeedbackTableHeader siteName={'All Feedback'} />
       {!data ? (
         <SiteTableSkeleton />
-      ) : data.feedback.length ? (
+      ) : data.feedback?.length ? (
         <FeedbackTable allFeedback={data.feedback} />
       ) : (
         <FeedbackEmptyState />

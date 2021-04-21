@@ -3,7 +3,7 @@ import { Box, Heading, Text, Divider, Flex, Icon } from '@chakra-ui/react';
 import { format, parseISO } from 'date-fns';
 import { GitHubIcon, GoogleIcon } from '@/utils/customIcons';
 
-const Feedback = ({ author, text, createdAt, provider, settings }) => {
+const Feedback = ({ author, text, createdAt, provider, settings, isLast }) => {
   return (
     <Box borderRadius={4} maxW="700px" w="full">
       <Flex align="center">
@@ -27,7 +27,9 @@ const Feedback = ({ author, text, createdAt, provider, settings }) => {
       <Text color="gray.800" my={4} p={4} borderRadius={8}>
         {text}
       </Text>
-      <Divider borderColor="gray.200" backgroundColor="gray.200" mt={8} />
+      {isLast && (
+        <Divider borderColor="gray.200" backgroundColor="gray.200" mt={8} />
+      )}
     </Box>
   );
 };

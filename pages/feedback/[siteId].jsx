@@ -17,9 +17,11 @@ const SiteFeedback = () => {
     fetcher
   );
 
+  console.log(data);
+
   return (
     <DashboardShell>
-      <SiteFeedbackTableHeader siteName={data && data.site.name} />
+      <SiteFeedbackTableHeader siteName={data && data.site?.name} />
       {!data ? (
         <SiteTableSkeleton />
       ) : data.feedback.length ? (

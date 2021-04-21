@@ -11,7 +11,6 @@ import {
   ModalCloseButton,
   FormControl,
   FormLabel,
-  Input,
   Button,
   useToast,
   useDisclosure,
@@ -19,12 +18,10 @@ import {
 } from '@chakra-ui/react';
 import { SettingsIcon } from '@chakra-ui/icons';
 import { updateSite } from '@/lib/db';
-import { useAuth } from '@/lib/auth';
 
 const EditSiteModal = ({ children, settings, siteId }) => {
   const initialRef = useRef();
   const toast = useToast();
-  const { user } = useAuth();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { register, handleSubmit } = useForm();
 
@@ -38,7 +35,7 @@ const EditSiteModal = ({ children, settings, siteId }) => {
       duration: 5000,
       isClosable: true,
     });
-    mutate(['/api/sites', user.token]);
+    mutate([`/api/sites/${siteId}`]);
     onClose();
   };
 
