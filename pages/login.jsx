@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import NextLink from 'next/link';
 import {
-  Box,
   Link,
   Button,
   Flex,
@@ -10,7 +9,6 @@ import {
   FormLabel,
   Input,
   Stack,
-  Icon,
   useToast,
 } from '@chakra-ui/react';
 import { useForm } from 'react-hook-form';
@@ -27,9 +25,9 @@ const Login = () => {
     formState: { errors },
   } = useForm();
 
-  const onLogin = ({ email, password }) => {
+  const onLogin = (data) => {
     setLoading(true);
-    signinWithEmail(email, password).catch((error) => {
+    signinWithEmail(data.email, data.password).catch((error) => {
       setLoading(false);
       toast({
         title: 'An error occurred.',
@@ -53,7 +51,6 @@ const Login = () => {
         shadow={[null, 'md']}
         spacing={4}
         w="100%"
-        errors={errors}
         onSubmit={handleSubmit((data) => onLogin(data))}
       >
         <Flex justify="center">
