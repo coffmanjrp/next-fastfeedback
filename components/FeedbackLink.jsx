@@ -1,7 +1,14 @@
 import React from 'react';
 import { Flex, Link } from '@chakra-ui/react';
+import { useTheme } from '@/utils/useTheme';
 
 const FeedbackLink = ({ paths }) => {
+  const colorMode = useTheme();
+  const linkColor = {
+    light: 'gray.900',
+    dark: 'gray.100',
+  };
+
   return (
     <Flex
       direction={['column', 'row']}
@@ -16,6 +23,7 @@ const FeedbackLink = ({ paths }) => {
         target="_blank"
         fontWeight="bold"
         fontSize="sm"
+        color={linkColor[colorMode]}
       >
         Leave a comment →
       </Link>
