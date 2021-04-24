@@ -1,8 +1,18 @@
 import React from 'react';
-import { Box, Heading, Text, Divider, Flex, Icon } from '@chakra-ui/react';
+import {
+  Box,
+  Heading,
+  Text,
+  Divider,
+  Flex,
+  Icon,
+  Code,
+} from '@chakra-ui/react';
 import { format, parseISO } from 'date-fns';
+import ReactMarkdown from 'react-markdown';
 import { GitHubIcon, GoogleIcon } from '@/utils/customIcons';
 import { useTheme } from '@/utils/useTheme';
+import MDXComponents from './MDXComponents';
 
 const Feedback = ({ author, text, createdAt, provider, settings, isLast }) => {
   const colorMode = useTheme();
@@ -45,7 +55,29 @@ const Feedback = ({ author, text, createdAt, provider, settings, isLast }) => {
           {format(parseISO(createdAt), 'PPpp')}
         </Text>
       )}
-      <Text color={textColor[colorMode]}>{text}</Text>
+      <Box color={textColor[colorMode]}>
+        <ReactMarkdown
+          source={text}
+          renderers={{
+            paragraph: MDXComponents.p,
+            blockquote: MDXComponents.blockquote,
+            link: MDXComponents.a,
+            list: MDXComponents.ul,
+            listItem: MDXComponents.li,
+            table: MDXComponents.table,
+            tableHead: MDXComponents.th,
+            tableCell: MDXComponents.td,
+            code: ({ value }) => (
+              <pre>
+                <Code borderRadius={8} p={4} my={4}>
+                  {value}
+                </Code>
+              </pre>
+            ),
+            inlineCode: MDXComponents.inlineCode,
+          }}
+        />
+      </Box>
 
       {isLast && <Divider borderColor={dividerColor[colorMode]} my={6} />}
     </Box>
