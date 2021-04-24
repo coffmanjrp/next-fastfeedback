@@ -7,7 +7,6 @@ import Footer from './Footer';
 
 const DashboardShell = ({ children }) => {
   const router = useRouter();
-
   const path = router.pathname;
   const name = path.charAt(1).toUpperCase() + path.slice(2);
   const title = `FastFeedback - ${name}`;
@@ -16,9 +15,9 @@ const DashboardShell = ({ children }) => {
   return (
     <>
       <NextSeo title={title} canonical={url} openGraph={{ url, title }} />
-      <Box backgroundColor="gray.100" h="100vh">
+      <Box backgroundColor="gray.100">
         <Navbar />
-        <Flex backgroundColor="gray.100" p={8} h="100vh">
+        <Flex p={8} h="100vh">
           <Flex maxWidth="1150px" direction="column" w="full" m="0 auto">
             {children}
           </Flex>
